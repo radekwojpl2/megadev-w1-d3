@@ -1,0 +1,57 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: radekwojpl2
+status: proposed
+reviewed: 2026-10-28
+signature: radekwojpl2
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+[#4471](/kb/incidents/4471) says its reports are one issue with one fix queued. Read the
+reports themselves and they show three problems. Each now has its own ticket.
+
+<ProblemTable ticket={4471} repo="radekwojpl2/megadev-w1-d3" issues={{ parser: 1, hint: 2, shift: 3 }} />
+
+<Callout kind="warn">
+Fixing the parser closes only the first row. The form hint and the one-day moves stay open
+until they get their own fixes.
+</Callout>
+
+## What each one is
+
+**`parser`: the shared parser reads dates month first.** Every tenant on file writes the day
+first, so a booking for 7 April comes out as 4 July. Every report that names both dates is an
+exact day-and-month swap. This is the fix #4471 has queued.
+
+**`hint`: the booking-v3 form asks for the month first.** booking-v3 prints `MM/DD/YYYY`
+under its date field. People type what it tells them, and the form reads the date the
+tenant's way, day first. The swap looks the same as the parser's, but it comes only through
+that form, and only for the tenants that run it. A parser fix does not touch it; the hint
+has to follow the tenant's locale.
+
+**`shift`: the date moves by one day.** "Tuesday 12 May showed as Monday 11 May." "Client in
+Lisbon got Tuesday, client in Toronto got Monday." "The invite arrived before I made the
+booking." No day-and-month swap does that; a date that crosses a time zone, or a
+daylight-saving change, does. The desk already lists these reports in its notes, and #4471
+still counted them under the parser.
+
+## How the split is made
+
+- One report per id: the export repeats some rows.
+- The tenant decides, not intake. `intakeTag` is a guess from the reporter's browser and
+  disagrees with the tenant on dozens of these reports, so this page never reads it.
+- `shift` comes from the desk's own list of one-day moves (`desk-notes.json`); the rest are
+  placed by tenant locale, booking form and channel (`causes.ts`).
+
+## Lessons
+
+- Subjects can match while causes differ. A count is only as true as the reason that groups it.
+- Before marking a big ticket known, read a few reports from each tenant, form and channel.
+
+<RenderStamp {signature} />

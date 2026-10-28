@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="../../../_app/immutable/entry/start.D1eHYTMm.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/WgfOfNfE.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/D8495aeL.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/CZomEjWq.js" rel="modulepreload">
+		<link href="../../../_app/immutable/entry/app.nxp7GDLT.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DZni_WYU.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/BMv-2JeR.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DQhTBKxc.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DL3LuOT-.js" rel="modulepreload">
+		<link href="../../../_app/immutable/nodes/0.Dqsao82p.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/BRmqMdvF.js" rel="modulepreload">
+		<link href="../../../_app/immutable/nodes/5.B7zGj8V2.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DRpkw3Gg.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/CCdwa9zY.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/DbG4UGrs.js" rel="modulepreload">
+		<link href="../../../_app/immutable/chunks/iXLSwIXB.js" rel="modulepreload">
+		<!--e2jw2j--><!----><title>#4471 · three problems, not one · support kb</title>
+		<link href="../../../_app/immutable/assets/runbook.BhhgOc_n.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/Callout.yLErXQDM.css" rel="stylesheet">
+		<link href="../../../_app/immutable/assets/5.Co0J4Uhy.css" rel="stylesheet">
+  </head>
+  <body>
+    <div style="display: contents"><!--[--><!--[0--><!--[--><!--[--><div class="kb svelte-e2jw2j"><header><a class="crumb svelte-e2jw2j" href="/kb">support desk · kb</a> <h1 class="svelte-e2jw2j">#4471 · three problems, not one</h1> <p class="meta svelte-e2jw2j"><span>owner <b>radekwojpl2</b></span> <span class="status proposed svelte-e2jw2j">proposed</span> <span class="svelte-e2jw2j">reviewed 2026-10-28 · 0 days ago</span></p></header> <!--[-1--><!--]--> <main><p><a href="/kb/incidents/4471">#4471</a> says its reports are one issue with one fix queued. Read the
+reports themselves and they show three problems. Each now has its own ticket.</p> <p class="sum svelte-1op6c6"><strong>412</strong> reports merged into #4471 · <strong>3</strong> problems<!--[-1--><!--]--></p> <table><thead><tr><th>problem</th><th>reports</th><th>tenants</th><th>seen</th><th>ticket</th></tr></thead><tbody><!--[--><tr><td><code>parser</code> shared parser reads dates month first</td><td>374</td><td>11</td><td>2026-04-01 → 2026-10-04</td><td><a href="https://github.com/radekwojpl2/megadev-w1-d3/issues/1">#1</a></td></tr><tr><td><code>hint</code> booking-v3 form hint says MM/DD/YYYY</td><td>33</td><td>3</td><td>2026-04-17 → 2026-09-22</td><td><a href="https://github.com/radekwojpl2/megadev-w1-d3/issues/2">#2</a></td></tr><tr><td><code>shift</code> date moves by one day (time zone)</td><td>5</td><td>5</td><td>2026-04-02 → 2026-10-04</td><td><a href="https://github.com/radekwojpl2/megadev-w1-d3/issues/3">#3</a></td></tr><!--]--></tbody></table><!----> <aside class="warn svelte-17bri61"><!---->Fixing the parser closes only the first row. The form hint and the one-day moves stay open
+until they get their own fixes.<!----></aside><!----> <h2>What each one is</h2> <p><strong><code>parser</code>: the shared parser reads dates month first.</strong> Every tenant on file writes the day
+first, so a booking for 7 April comes out as 4 July. Every report that names both dates is an
+exact day-and-month swap. This is the fix #4471 has queued.</p> <p><strong><code>hint</code>: the booking-v3 form asks for the month first.</strong> booking-v3 prints <code>MM/DD/YYYY</code> under its date field. People type what it tells them, and the form reads the date the
+tenant’s way, day first. The swap looks the same as the parser’s, but it comes only through
+that form, and only for the tenants that run it. A parser fix does not touch it; the hint
+has to follow the tenant’s locale.</p> <p><strong><code>shift</code>: the date moves by one day.</strong> “Tuesday 12 May showed as Monday 11 May.” “Client in
+Lisbon got Tuesday, client in Toronto got Monday.” “The invite arrived before I made the
+booking.” No day-and-month swap does that; a date that crosses a time zone, or a
+daylight-saving change, does. The desk already lists these reports in its notes, and #4471
+still counted them under the parser.</p> <h2>How the split is made</h2> <ul><li>One report per id: the export repeats some rows.</li> <li>The tenant decides, not intake. <code>intakeTag</code> is a guess from the reporter’s browser and
+disagrees with the tenant on dozens of these reports, so this page never reads it.</li> <li><code>shift</code> comes from the desk’s own list of one-day moves (<code>desk-notes.json</code>); the rest are
+placed by tenant locale, booking form and channel (<code>causes.ts</code>).</li></ul> <h2>Lessons</h2> <ul><li>Subjects can match while causes differ. A count is only as true as the reason that groups it.</li> <li>Before marking a big ticket known, read a few reports from each tenant, form and channel.</li></ul> <!--[0--><p class="stamp svelte-1280m42">desk ref <b class="svelte-1280m42">DR-V99B-ZAQY</b></p><!--]--><!----><!----></main> <footer class="svelte-e2jw2j">Pages are written by people. Tables and charts are built from data at render time.</footer></div><!--]--><!----><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_s570tt = {
+						base: new URL("../../..", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../../_app/immutable/entry/start.D1eHYTMm.js"),
+						import("../../../_app/immutable/entry/app.nxp7GDLT.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>
