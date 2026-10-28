@@ -46,8 +46,9 @@ still counted them under the parser.
 - One report per id: the export repeats some rows.
 - The tenant decides, not intake. `intakeTag` is a guess from the reporter's browser and
   disagrees with the tenant on dozens of these reports, so this page never reads it.
-- `shift` comes from the desk's own list of one-day moves (`desk-notes.json`); the rest are
-  placed by tenant locale, booking form and channel (`causes.ts`).
+- Counted the desk's way, as `CauseTable` does: every report under its cause (`causes.ts`),
+  by tenant locale, booking form and channel. `shift` is the desk's own list of one-day moves
+  (`desk-notes.json`); those reports also stay counted where they're filed.
 
 ## Lessons
 

@@ -30,7 +30,7 @@
     {#each split.groups as g (g.problem)}
       <tr>
         <td><code>{g.problem}</code> {LABEL[g.problem]}</td>
-        <td>{g.reports.length}</td>
+        <td>{g.reports.length}{#if g.alsoIn}<sup>*</sup>{/if}</td>
         <td>{g.tenants}</td>
         <td>{g.firstSeen} → {g.lastSeen}</td>
         <td><a href="https://github.com/{repo}/issues/{issues[g.problem]}">#{issues[g.problem]}</a></td>
@@ -39,6 +39,11 @@
   </tbody>
 </table>
 
+{#each split.groups.filter((g) => g.alsoIn) as g (g.problem)}
+  <p class="note">* {g.alsoIn} of these read as a one-day move: counted here, where the desk files them, and again under <code>shift</code>.</p>
+{/each}
+
 <style>
   .sum { font-size: 1.1rem; }
+  .note { color: var(--muted); font-size: 0.85em; }
 </style>
