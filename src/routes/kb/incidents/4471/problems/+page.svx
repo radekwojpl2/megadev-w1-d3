@@ -2,7 +2,7 @@
 layout: runbook
 title: '#4471 · three problems, not one'
 owner: radekwojpl2
-status: proposed
+status: closed
 reviewed: 2026-10-28
 signature: radekwojpl2
 ---
@@ -49,6 +49,15 @@ still counted them under the parser.
 - Counted the desk's way, as `CauseTable` does: every report under its cause (`causes.ts`),
   by tenant locale, booking form and channel. `shift` is the desk's own list of one-day moves
   (`desk-notes.json`); those reports also stay counted where they're filed.
+
+## Outcome
+
+Engineering closed #4471 on 5 October.
+
+- `parser`: fixed, `fix(dates): parse dd/mm for eu locales`. [#1](https://github.com/radekwojpl2/megadev-w1-d3/issues/1) closed.
+- `hint`: won't fix. The booking-v3 form is retired. [#2](https://github.com/radekwojpl2/megadev-w1-d3/issues/2) closed.
+- `shift`: no fix shipped; the parser fix does not move dates across time zones.
+  [#3](https://github.com/radekwojpl2/megadev-w1-d3/issues/3) closed; reopen it if one-day moves come back.
 
 ## Lessons
 
